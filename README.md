@@ -1,29 +1,25 @@
 # ✈️ AviateGPT
 
-**Your Personal Local Aviation Brain**  
-A private, offline RAG (Retrieval-Augmented Generation) assistant that answers aviation questions using official FAA documents (FAR/AIM + Handbooks).
+**Your Personal Local Aviation Brain**
+
+A private, offline AI assistant that answers aviation questions **using only official FAA documents** (FAR/AIM, Pilot’s Handbook of Aeronautical Knowledge, Airplane Flying Handbook, etc.).
+
+It is **not** connected to the internet and does not use generic AI knowledge — it searches your downloaded FAA PDFs and gives grounded, practical answers with source citations.
 
 ---
 
-## Features
-- Fully local — nothing leaves your computer
-- Answers grounded in real FAA PDFs with source citations
-- Works with any GGUF model (Qwen, Phi, Llama, etc.)
-- Simple web interface
+## What This Is For
+
+- Pilots who want accurate, regulation-based answers
+- Pre-flight planning and study tool
+- Understanding real-world Part 91 operations (especially inoperative equipment like cracked windshields, night currency, weather minimums, etc.)
+- A personal knowledge base you fully control
 
 ---
 
-## How to Set Up (Step-by-Step)
+## How to Run (Step-by-Step)
 
-### 1. Prerequisites
-- Windows PC
-- Python 3.11 or 3.12 installed
-- A GGUF model (e.g. Qwen3-8B or similar) in `E:\aviationbrain\models\`
-- llama.cpp server (`llama-server.exe`)
-
-### 2. Setup the Project
-
-Open PowerShell and run:
+### 1. Setup
 
 ```powershell
 cd E:\aviationbrain
@@ -32,28 +28,6 @@ cd E:\aviationbrain
 python -m venv venv
 venv\Scripts\activate
 
-# Install required packages
+# Install dependencies
 pip install --upgrade pip
 pip install streamlit openai chromadb sentence-transformers pypdf
-3. Start the LLM Server (Important - keep this window open)
-Open a second PowerShell window and run:
-PowerShellcd E:\aviationbrain\llama
-
-# Example command (adjust -ngl and model name for your GPU)
-.\llama-server.exe -m ..\models\Qwen_Qwen3-8B-Q5_K_M.gguf -c 8192 --port 8080 -ngl 25 --threads 20
-4. Start AviateGPT
-In the first PowerShell window:
-PowerShellstreamlit run app.py
-Open your browser and go to: http://localhost:8501
-
-Rebuilding the Knowledge Base
-If you add new PDFs or delete the database:
-PowerShellpython ingest_faraim.py
-This can take a long time the first time.
-
-Project Files
-
-app.py → Main web app
-ingest_faraim.py → Loads your FAA PDFs
-download_docs.py → Downloads official FAA documents
-chroma_db/ → Vector database (created automatically)
