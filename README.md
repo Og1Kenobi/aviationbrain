@@ -47,6 +47,75 @@ Rebuilding the Knowledge Base
 PowerShellpython ingest_faraim.py
 Run this if you add new PDFs or delete the chroma_db folder.
 
+Simple Architecture Explanation
+Here's how your AviateGPT actually works:
+textUser Question
+      ↓
+[Retrieval] → Searches your FAA PDFs using embeddings (vector similarity)
+      ↓
+Relevant Chunks (with page numbers) 
+      ↓
+[Augmented Prompt] → Sent to the Local LLM (Qwen3-8B, etc.)
+      ↓
+LLM generates answer based ONLY on your documents + general knowledge
+      ↓
+Answer with citations
+Full Architecture Breakdown
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ComponentWhat it isTool UsedPurposeDocumentsFAA PDFs (FAR/AIM, PHAK, etc.)Your data/far_aim/ folderSource of truthEmbedding ModelConverts text to numbersall-MiniLM-L6-v2Creates searchable vectorsVector DatabaseStores embeddingsChromaDBFast similarity searchLLM / BrainThe actual AI that talksllama.cpp + GGUF modelGenerates the final answerWeb InterfaceThe chat window you seeStreamlitUser-friendly frontendServerConnects everythingOpenAI-compatible APIGlue between components
+Why This is Good
+
+Grounded — It tries to answer from your real FAA documents first
+Private — Nothing leaves your computer
+Customizable — You control the documents and the model
+Explainable — It can show you the source pages
+
 Notes
 
 Everything runs 100% locally on your machine
