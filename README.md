@@ -2,24 +2,24 @@
 
 **Your Personal Local Aviation Brain**
 
-A private, offline AI assistant that answers aviation questions **using only official FAA documents** (FAR/AIM, Pilot’s Handbook of Aeronautical Knowledge, Airplane Flying Handbook, etc.).
+A private, offline AI assistant that answers aviation questions using **only your downloaded FAA documents** (FAR/AIM, PHAK, Airplane Flying Handbook, etc.).
 
-It is **not** connected to the internet and does not use generic AI knowledge — it searches your downloaded FAA PDFs and gives grounded, practical answers with source citations.
+It does **not** use generic internet AI knowledge — it searches your actual PDFs and gives practical, cited answers.
 
 ---
 
-## What This Is For
+## What is Streamlit?
 
-- Pilots who want accurate, regulation-based answers
-- Pre-flight planning and study tool
-- Understanding real-world Part 91 operations (especially inoperative equipment like cracked windshields, night currency, weather minimums, etc.)
-- A personal knowledge base you fully control
+**Streamlit** is a simple tool that turns Python code into a nice web app.  
+In this project, Streamlit creates the chat interface you see in your browser (`http://localhost:8501`). It’s lightweight and runs entirely on your computer.
 
 ---
 
 ## How to Run (Step-by-Step)
 
 ### 1. Setup
+
+Open PowerShell and run:
 
 ```powershell
 cd E:\aviationbrain
@@ -28,45 +28,30 @@ cd E:\aviationbrain
 python -m venv venv
 venv\Scripts\activate
 
-# Install dependencies
+# Install dependencies (including Streamlit)
 pip install --upgrade pip
 pip install streamlit openai chromadb sentence-transformers pypdf
-2. Start the LLM Server (in a separate PowerShell window)
+2. Start the LLM Server (separate PowerShell window)
 PowerShellcd E:\aviationbrain\llama
 
-# Example (adjust model name and -ngl for your GPU)
+# Example command - adjust as needed for your model/GPU
 .\llama-server.exe -m ..\models\Qwen_Qwen3-8B-Q5_K_M.gguf -c 8192 --port 8080 -ngl 25 --threads 20
-Keep this window running.
-3. Start the Web Interface
-In the first window:
+Keep this window open.
+3. Start AviateGPT (Streamlit Web Interface)
+In the first PowerShell window:
 PowerShellstreamlit run app.py
-This will open AviateGPT in your web browser at:
+This will automatically open AviateGPT in your web browser at:
 http://localhost:8501
-You can now ask questions like:
-
-"Can I fly with a cracked windshield under Part 91?"
-"What are the night currency requirements?"
-"Explain 91.155 Class G weather minimums"
-
 
 Rebuilding the Knowledge Base
 PowerShellpython ingest_faraim.py
-Run this whenever you add new FAA PDFs or delete the chroma_db folder.
-
-Project Files Overview
-
-app.py → The web interface (Streamlit)
-ingest_faraim.py → Loads and processes your FAA PDFs
-download_docs.py → Helps download official FAA handbooks
-chroma_db/ → The search database (created automatically)
-
+Run this if you add new PDFs or delete the chroma_db folder.
 
 Notes
 
-Everything runs 100% locally on your computer
-Works with any GGUF model served on port 8080
-First run after changing models may require re-ingestion
-License: All Rights Reserved (personal use only)
+Everything runs 100% locally on your machine
+You can use any GGUF model by changing the server command
+Streamlit is only used to create the chat interface — no data is sent over the internet
 
 
 Made by Jonathan Douglas.
